@@ -418,6 +418,13 @@
     <button type="button" class="exportbtn" id="restorebtn">Restore</button>
   </div>
   <input type="file" id="restorefile" accept=".json,application/json" style="display:none">
+  <div class="wherenote" id="convnote">
+    <b>What goes in the weight box:</b> the number shown under each field.
+    Dumbbell lifts are <b>one dumbbell</b> (a pair of 50s is <code>50</code>, not 100).
+    Carries are per hand. Landmine press is the <b>plates you loaded</b>, ignoring the bar.
+    Cable work is whatever the Beyond Power reads. Barbell lifts are the total including the bar.
+    <br><br>If you're ever unsure, pick one way and never change it \u2014 the number's only job is to beat last week's.
+  </div>
   <div class="wherenote" id="wherenote"></div>
 </section>
 
@@ -444,7 +451,7 @@
   Accessories use double progression &mdash; hit the top rep target on all sets, then add weight.
   Weeks 4, 8 and 12 are deloads: same movements, half the reps, 60% of the weight.<br><br>
   Not medical advice. If a physical therapist or physician tells you something different, they win.
-  <br><span class="buildstamp">2026-08-17 · build 6</span>
+  <br><span class="buildstamp">2026-08-17 · build 7</span>
 </footer>
 
 </div>
@@ -652,11 +659,24 @@
     return null;
   }
 
+
+  // what number goes in the weight box, per movement
+  function unitHint(name){
+    if (/Landmine/i.test(name))                 return "plates";
+    if (/Carry/i.test(name))                    return "lb/hand";
+    if (/Cable|Pulldown/i.test(name))           return "stack";
+    if (/Goblet/i.test(name))                   return "lb";
+    if (/\bDBs?\b|Dumbbell/i.test(name))        return "lb/DB";
+    if (/Calf Raise|Split Squat|Lunge/i.test(name)) return "lb/DB";
+    return "lb";
+  }
+
   function logBlock(wk, dayKey, item, name){
     if (item.e.fin) return "";
     var nsets = parseInt(item.e.sets, 10) || 1;
     if (nsets > 5) nsets = 5;
     var h = '<div class="logwrap">';
+    var uh = unitHint(name);
 
     var lt = lastTime(wk, dayKey, name, nsets);
     if (lt) h += '<div class="lastt">Week ' + lt.week + ': <b>' + lt.txt + '</b></div>';
@@ -667,7 +687,7 @@
       var vw = Store.getCell(kw), vr = Store.getCell(kr);
       h += '<div class="setrow">' +
              '<span class="sn">' + (i + 1) + '</span>' +
-             '<input type="text" inputmode="decimal" enterkeyhint="next" placeholder="lb" ' +
+             '<input type="text" inputmode="decimal" enterkeyhint="next" placeholder="' + uh + '" ' +
                'aria-label="' + name + ' set ' + (i+1) + ' weight" ' +
                'data-k="' + kw + '" value="' + vw + '"' + (vw ? ' class="has"' : '') + '>' +
              '<span class="unit">\u00d7</span>' +
