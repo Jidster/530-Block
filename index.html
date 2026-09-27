@@ -1,4 +1,13 @@
 <!DOCTYPE html>
+<script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "The 530 Block",
+  "schemaVersion": 1,
+  "description": "The 5:30 Block — installable home-screen web app for a 12-week home gym program. Log weight and reps per set, see last week's numbers, rest timer, exercise demos, auto-calculated loads, and a rotating 5:29am line. Calibrated from six years of Starting Strength logs; shoulder-safe throughout.",
+  "mcpTools": [],
+  "mcpServerNames": []
+}
+</script>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -117,6 +126,7 @@
     font-variant-numeric:tabular-nums;white-space:nowrap;
   }
   .load.unset{background:#2a2e34;color:var(--ink3);font-weight:500}
+  .loadwhy{font-size:11.5px;color:var(--ink3);margin-top:4px;line-height:1.4}
   .srm{display:none}
 
   ol.warm{margin:0;padding-left:20px}
@@ -136,6 +146,9 @@
   .rule .rb{font-size:13.5px;color:var(--ink2);line-height:1.45}
   .rule .rb b{color:var(--ink)}
 
+  .safety.cleared{background:#13231d;border-color:#2f5f4a}
+  .safety.cleared h2{color:var(--green)}
+  .safety.cleared p{color:#bfdbd0}
   .safety{background:#241618;border:1px solid #5a2a2c;border-radius:14px;padding:16px 18px;margin-bottom:20px}
   .safety h2{margin:0 0 8px;font-size:12px;letter-spacing:.11em;text-transform:uppercase;color:var(--red);font-weight:700}
   .safety p{margin:0 0 8px;font-size:13.5px;color:#e3c6c4;line-height:1.5}
@@ -369,17 +382,21 @@
     <select id="week"></select>
   </div>
   <div class="ctl">
-    <label for="sq">Old squat 1RM</label>
-    <input type="number" id="sq" placeholder="lb" step="5" min="0" value="275">
+    <label for="sq">Squat start</label>
+    <input type="number" id="sq" placeholder="lb" step="5" min="0" value="115">
   </div>
   <div class="ctl">
-    <label for="dl">Old deadlift 1RM</label>
-    <input type="number" id="dl" placeholder="lb" step="5" min="0" value="325">
+    <label for="dl">Deadlift start</label>
+    <input type="number" id="dl" placeholder="lb" step="5" min="0" value="155">
   </div>
-  <div class="ctl" style="flex:1 1 200px">
+  <div class="ctl">
+    <label for="pr">Press start</label>
+    <input type="number" id="pr" placeholder="lb" step="5" min="0" value="65">
+  </div>
+  <div class="ctl" style="flex:1 1 220px">
     <label>&nbsp;</label>
     <div style="font-size:12.5px;color:var(--ink3);line-height:1.4">
-      Pre-filled from your log: estimated maxes from your best 2026 sets (squat 235&times;5, deadlift 280&times;5). Adjust if you disagree.
+      Seed weights only. After your first session on a lift, each target is calculated from what you actually logged.
     </div>
   </div>
 </div>
@@ -394,11 +411,13 @@
 
 <div id="banners"></div>
 
-<div class="safety">
-  <h2>Shoulder rules — every session</h2>
-  <p><b>Crossover Symmetry Activation before you lift. Recovery after.</b> Also on both off days. Six minutes a week decides whether you're still training in month six.</p>
-  <p><b>Nothing loaded overhead for 12 weeks.</b> No barbell press, no bench, no dips, no upright rows, no wall balls or slam balls, no kipping. They come back when a clinician clears you.</p>
-  <p><b>Get the cuff properly evaluated before week 3.</b> Stop and call someone if you get night pain, sudden weakness, catching or clunking, or pain running below the elbow.</p>
+<div class="safety cleared">
+  <h2>Shoulder — MRI 24 Sep 2026, cleared</h2>
+  <p><b>No rotator cuff tear. Labrum, biceps and ligaments all intact.</b> The restrictions this program was built around are gone. Overhead pressing, pull-ups, wall balls and slam balls are all back in.</p>
+  <p><b>Two small findings that do change things.</b> Minimal AC joint arthritis &mdash; it's provoked by cross-body reaching, deep benching and dips, so <b>dips stay out</b> and cable flies keep the no-deep-stretch rule. And a Type II acromion, which is the commonest shape there is and means nothing for your training.</p>
+  <p><b>Crossover Symmetry still happens every session</b>, before and after. It's warm-up and scapular work now, not rehab &mdash; and your press has four years of lost ground to make up, so it earns its three minutes.</p>
+  <p>The scan found no cause for the pain you had, which makes it a mechanics question rather than a structural one. Worth one physio appointment to answer properly.</p>
+</div>
 </div>
 
 <div id="session"></div>
@@ -447,11 +466,12 @@
 </section>
 
 <footer>
-  Progression: main lifts +5 lb lower / +2.5&ndash;5 lb upper per week, only if every rep was clean.
-  Accessories use double progression &mdash; hit the top rep target on all sets, then add weight.
-  Weeks 4, 8 and 12 are deloads: same movements, half the reps, 60% of the weight.<br><br>
+  Progression: each main-lift target is calculated from your last logged session on that lift &mdash;
+  clean reps at RPE 7 or below adds 10 lb (5 on the press), a miss or a grind holds you at the same weight.
+  Accessories use double progression: hit the top rep target on every set, then add weight.
+  Weeks 4, 8 and 12 are deloads &mdash; same movements, half the reps, 80% of your working weight.<br><br>
   Not medical advice. If a physical therapist or physician tells you something different, they win.
-  <br><span class="buildstamp">2026-08-17 · build 7</span>
+  <br><span class="buildstamp">2026-09-26 · build 9</span>
 </footer>
 
 </div>
@@ -495,6 +515,10 @@
     "Cable Lateral Raise":"cable lateral raise form shoulder friendly",
     "Cable Triceps Pushdown":"cable tricep pushdown form",
     "Cable Curl":"cable bicep curl form",
+    "Barbell Overhead Press":"barbell strict overhead press form tutorial",
+    "Strict Pull-Up":"strict pull up form band assisted progression",
+    "Flat DB Bench Press":"neutral grip dumbbell bench press form",
+    "Hyrox taster":"hyrox wall ball and farmers carry technique",
     "Ruck":"rucking technique beginner guide",
     "Trail hike or trail run":"trail running technique beginner",
     "Row + carry circuit":"concept 2 rower proper technique",
@@ -523,18 +547,18 @@
 
   // pct = % of old 1RM by week; deload weeks override
   var WEEKS = [
-    {w:1,  pct:0.55, note:"Calibration. This is supposed to feel insultingly easy &mdash; do it anyway. The goal of weeks 1&ndash;2 is not fitness, it is proving you are a person who trains at 5:30 again."},
-    {w:2,  pct:0.60, note:"Still building the habit, not the muscle. If anything moves at RPE 8, it is too heavy regardless of what the math says."},
-    {w:3,  pct:0.65, note:"First real working week. You should finish every set knowing you had 4 more in you. Book the shoulder evaluation this week."},
-    {w:4,  pct:0.60, deload:true, note:"Deload. Same movements, half the reps, 60% load, finishers become easy zone 2 only. You should leave feeling like you could do it all twice."},
-    {w:5,  pct:0.70, note:"Block 2 begins. Back Squat becomes Front Squat. Floor press may move to flat bench with a neutral grip &mdash; only if the shoulder has been quiet."},
-    {w:6,  pct:0.70, note:"RPE 7. Real work now. Chase last week's numbers in the log rather than chasing a feeling."},
+    {w:1,  pct:0.55, note:"You started 26 Sep after five months off. Week 1 is about proving you are a person who trains at 5:30 again, not about load. Everything here is deliberately light."},
+    {w:2,  pct:0.60, note:"Second week. Targets now come from what you actually logged, so they will feel right rather than aspirational. Cap it at RPE 7 even when it feels easy."},
+    {w:3,  pct:0.65, note:"The weight starts to mean something. You should finish every set knowing you had three or four more in you."},
+    {w:4,  pct:0.60, deload:true, note:"Deload. Same movements, half the reps, 80% of your working weight, easy finishers. You should leave feeling like you could do it all twice."},
+    {w:5,  pct:0.70, note:"Block 2. By now the squat should be climbing fast \u2014 your own history says 95 to 235 in seven weeks, so expect the numbers to run."},
+    {w:6,  pct:0.70, note:"RPE 7 still. Chase last week\u2019s number in the log rather than chasing a feeling."},
     {w:7,  pct:0.72, note:"Hardest week of block 2. Protein and sleep are doing as much work as the barbell is."},
-    {w:8,  pct:0.60, deload:true, note:"Deload. Resist the urge to push &mdash; this week is what lets block 3 be productive."},
-    {w:9,  pct:0.72, note:"Block 3. Back Squat returns. RPE 8 on main lifts &mdash; two reps in reserve, never to failure."},
-    {w:10, pct:0.75, note:"Push the accessories to RIR 1&ndash;2. Cable and dumbbell work is where it is safe to get close to the edge."},
-    {w:11, pct:0.78, note:"Peak volume week. If a rep target gets missed two weeks running, drop 10% and rebuild rather than grinding."},
-    {w:12, pct:0.60, deload:true, retest:true, note:"Deload and retest. Mon and Thu: work up to one heavy set of 3 on Squat and Deadlift. Tue: heavy set of 8 on the neutral-grip press. Those numbers build your next block."}
+    {w:8,  pct:0.60, deload:true, note:"Deload. This is the week that breaks the pattern \u2014 every previous block of yours died somewhere around here by refusing to back off."},
+    {w:9,  pct:0.72, note:"Block 3. RPE cap moves to 8: two reps in reserve, never to failure. If a lift stalls twice, the app will hold you there \u2014 let it."},
+    {w:10, pct:0.75, note:"Push accessories to RIR 1\u20132. Cable and dumbbell work is where it is safe to get close to the edge."},
+    {w:11, pct:0.78, note:"Peak week. If something has been stuck for three sessions, change the movement rather than grinding it."},
+    {w:12, pct:0.60, deload:true, retest:true, note:"Deload and retest. Work up to one heavy set of 3 on Squat and Deadlift, and a heavy set of 8 on the press. Those three numbers build the next block."}
   ];
 
   function ex(name, sets, reps, note, lift, pctAdj){
@@ -545,57 +569,56 @@
     {
       key:"lowerA", day:"Monday", name:"Lower A", focus:"Squat pattern &amp; quads", warm:"lower",
       items:[
-        {tag:"A",  e:ex("Back Squat", 4, "6", "The anchor lift. Ramp up with empty bar &times; 8, then 3&ndash;4 progressively heavier triples before set 1. Rest 2&ndash;3 min between working sets.", "squat")},
-        {tag:"B1", e:ex("DB Bulgarian Split Squat", 3, "10 each leg", "Rear foot on the bench. Brutal, and the single best leg builder you own.")},
+        {tag:"A",  e:ex("Back Squat", 4, "6", "The anchor lift, and it stays Back Squat all twelve weeks &mdash; the progression needs continuity to work. Ramp with empty bar &times; 8 then 3&ndash;4 heavier triples. Rest 2&ndash;3 min between working sets. Want a change of taste? Front squat as a one-off swap, but log it in the note.", "squat")},
+        {tag:"B1", e:ex("DB Bulgarian Split Squat", 3, "10 each leg", "Rear foot on the bench. Humbling relative to your squat &mdash; that is normal and not a reason to rush the weight.")},
         {tag:"B2", e:ex("Cable Pull-Through", 3, "12", "Beyond Power, low anchor, rope. Hamstrings and glutes with zero spinal load.")},
-        {tag:"C1", e:ex("Goblet Squat, 3-sec descent", 3, "12", "Heaviest adjustable dumbbell. Slow the way down and own the bottom.")},
+        {tag:"C1", e:ex("Goblet Squat, 3-sec descent", 3, "12", "Kettlebell by the horns if you have one heavy enough. Slow the way down and own the bottom.")},
         {tag:"C2", e:ex("Standing Calf Raise", 3, "15", "Dumbbells in hand, toes on a plate edge for range.")}
       ],
-      alt:{ 5:"Front Squat", 6:"Front Squat", 7:"Front Squat", 8:"Front Squat" },
-      fin:{t:"Assault Bike &mdash; 8 &times; 20s hard / 40s easy", d:"About 8 minutes. Hard means hard: the last two intervals should be genuinely ugly."}
+      fin:{t:"Assault Bike &mdash; 8 &times; 20s hard / 40s easy", d:"About 8 minutes. The last two intervals should be genuinely ugly.<br><br><b>Swaps:</b> 8 rounds of 15 Russian kettlebell swings, 40s rest &middot; or <b>5 rounds of 20 wall balls</b>, 60s rest. Wall balls are back and they are a Hyrox station, so they are training, not novelty."}
     },
     {
       key:"upperA", day:"Tuesday", name:"Upper A", focus:"Horizontal push &amp; pull", warm:"upper",
       items:[
-        {tag:"A",  e:ex("Neutral-Grip DB Floor Press", 4, "8", "Weeks 1&ndash;4 on the floor &mdash; it physically caps your range and protects the cuff. From week 5 you may use a flat bench with a neutral grip, but only if pressing has been pain-free.")},
-        {tag:"B1", e:ex("Chest-Supported DB Row", 4, "10", "Bench at about 30 degrees, chest down on the pad. Hold the squeeze for a full second.")},
-        {tag:"B2", e:ex("Cable Chest Fly", 3, "12", "Mid-height. Stop the stretch before the shoulder has an opinion &mdash; no deep pec stretch on a suspect cuff.")},
-        {tag:"C1", e:ex("Cable Face Pull", 3, "15", "The most valuable exercise in this whole program for you. High anchor, pull to the forehead, finish with external rotation.")},
+        {tag:"A",  e:ex("Flat DB Bench Press", 4, "8", "Neutral grip &mdash; palms facing. Still the kindest path for an arthritic AC joint, and you can press hard on it. Barbell bench is cleared too if you want the variety: moderate grip, and back off if it pinches at lockout.")},
+        {tag:"B1", e:ex("Chest-Supported DB Row", 4, "10", "Bench at about 30 degrees, chest on the pad. Hold the squeeze for a full second.")},
+        {tag:"B2", e:ex("Cable Chest Fly", 3, "12", "Mid-height, and stop short of the deep stretch. That rule survives the MRI &mdash; it is the AC joint asking, not the cuff.")},
+        {tag:"C1", e:ex("Cable Face Pull", 3, "15", "High anchor, pull to the forehead, finish with external rotation. Still the best single thing in here for your shoulder.")},
         {tag:"C2", e:ex("DB Hammer Curl", 3, "12", "Neutral grip, easy on the elbows.")}
       ],
-      fin:{t:"Rower &mdash; 5 &times; 250m, 60s rest", d:"Hold a consistent split across all five. Write the split in the log &mdash; this is a number to beat next week."}
+      fin:{t:"Rower &mdash; 5 &times; 250m, 60s rest", d:"Hold a consistent split and write it in the log &mdash; it is a number to beat next week.<br><br><b>Hyrox swap:</b> 5 rounds of 15 wall balls + 250m row. That pairing is close to what the back half of a Hyrox actually feels like."}
     },
     {
       key:"lowerB", day:"Thursday", name:"Lower B", focus:"Hinge, posterior chain &amp; carries", warm:"lower",
       items:[
-        {tag:"A",  e:ex("Deadlift", 3, "5", "Reset the bar on the floor between every rep &mdash; no touch-and-go. In weeks 1&ndash;4 this is technique practice, not a test.", "dead")},
-        {tag:"B1", e:ex("DB Front-Rack Reverse Lunge", 3, "10 each leg", "Dumbbells at the shoulders, never overhead. Step back, not forward.")},
-        {tag:"B2", e:ex("Romanian Deadlift (DB or BB)", 3, "10", "Hinge it, don't squat it. Stop the rep where your lower back would start to round.")},
+        {tag:"A",  e:ex("Deadlift", 3, "5", "Reset the bar on the floor between every rep &mdash; no touch-and-go. Early weeks are technique practice, not a test.", "dead")},
+        {tag:"B1", e:ex("DB Front-Rack Reverse Lunge", 3, "10 each leg", "Dumbbells at the shoulders. Step back, not forward.")},
+        {tag:"B2", e:ex("Romanian Deadlift (DB or BB)", 3, "10", "Hinge it, don\u2019t squat it. Stop where your lower back would start to round. Pick one implement and stay with it &mdash; dumbbell and barbell numbers aren\u2019t comparable.")},
         {tag:"C1", e:ex("Cable Hip Abduction", 3, "15 each side", "Boring, and directly protective of your knees and hips on uneven Spartan ground.")},
-        {tag:"C2", e:ex("Farmer's Carry", 3, "40 yards", "Heaviest dumbbells you can hold. This is Spartan training and a superb trap and core builder at the same time.")}
+        {tag:"C2", e:ex("Farmer\u2019s Carry", 3, "40 yards", "Heaviest dumbbells or kettlebells you can hold. Single-bell suitcase carries are a good rotation &mdash; brutal on the obliques.")}
       ],
-      fin:{t:"Rower &mdash; 10 min steady, zone 2", d:"Conversational pace, nose breathing if you can. Put Fitness+ on the Apple TV and switch your brain off."}
+      fin:{t:"Rower &mdash; 10 min steady, zone 2", d:"Conversational pace. Put Fitness+ on the Apple TV and switch your brain off.<br><br><b>Swaps:</b> 10 min alternating 20 Russian KB swings / 40yd suitcase carry &middot; or 8 rounds of 10 slam balls, 45s rest."}
     },
     {
-      key:"upperB", day:"Friday", name:"Upper B", focus:"Vertical pull, arms &amp; safe press", warm:"upper",
+      key:"upperB", day:"Friday", name:"Upper B", focus:"Overhead press rebuild &amp; vertical pull", warm:"upper",
       items:[
-        {tag:"A",  e:ex("Cable Lat Pulldown", 4, "10", "Beyond Power, high anchor. Neutral or wide grip &mdash; whichever is pain-free. This replaces pull-ups in block 1.")},
-        {tag:"B",  e:ex("Landmine Press", 3, "10 each arm", "Barbell anchored in the rack corner. This is your safe vertical-ish press &mdash; the arc is one your shoulder actually likes.")},
-        {tag:"C1", e:ex("Single-Arm Cable Row", 3, "12 each", "Full stretch, full squeeze, no torso rotation to cheat the last reps.")},
-        {tag:"C2", e:ex("Cable Lateral Raise", 3, "15", "Keep the hand below shoulder height. Raises above 90 degrees are a classic cuff aggravator.")},
+        {tag:"A",  e:ex("Barbell Overhead Press", 4, "6", "Back on the menu, and the whole point of this day. Start light &mdash; this lift has 83 sessions across six years against your squat\u2019s 170, and it got reset by every restart. It isn\u2019t weak because it\u2019s injured, it\u2019s weak because it has never had a proper run. Give it one. Landmine press is a fine swap on a day it feels off.", "press")},
+        {tag:"B",  e:ex("Strict Pull-Up", 3, "5", "Band-assisted until you don\u2019t need the band. Strict only &mdash; no kipping, and that is about being 48, not about your shoulder.")},
+        {tag:"C1", e:ex("Single-Arm Cable Row", 3, "12 each", "Full stretch, full squeeze, no torso rotation to steal the last reps.")},
+        {tag:"C2", e:ex("Cable Lateral Raise", 3, "15", "To shoulder height is fine now. Going much above it can nip the AC joint, so stop there.")},
         {tag:"D1", e:ex("Cable Triceps Pushdown", 3, "12", "Elbows pinned to your sides.")},
-        {tag:"D2", e:ex("Cable Curl", 3, "12", "Take these to RIR 1 &mdash; cable work is where it is safe to push close to failure.")}
+        {tag:"D2", e:ex("Cable Curl", 3, "12", "Take these to RIR 1 \u2014 cable work is where it is safe to push close.")}
       ],
-      fin:{t:"Jump Rope &mdash; 6 &times; 45s work / 30s rest", d:"Swap to bike intervals if the rope starts beating up your calves. Both are fine."}
+      fin:{t:"Jump Rope &mdash; 6 &times; 45s work / 30s rest", d:"Swap to bike intervals if the rope beats up your calves.<br><br><b>Swap:</b> 6 rounds of 10 slam balls + 10 wall balls. Both are back, and this is the most fun eight minutes in the program."}
     },
     {
       key:"sat", day:"Saturday", name:"Adventure Day", focus:"The Spartan base &mdash; with your wife", warm:null,
       optional:true,
       items:[
-        {tag:"1", e:ex("Ruck", 1, "40&ndash;60 min", "Loaded pack, hills if you have them. The single highest-carryover Spartan session that exists, and it costs you nothing in recovery.")},
-        {tag:"2", e:ex("Trail hike or trail run", 1, "45&ndash;75 min", "Uneven ground is the entire point &mdash; your ankles need reps that a flat road cannot give them.")},
-        {tag:"3", e:ex("Row + carry circuit", 5, "rounds", "500m row, 40yd farmer's carry, 20 air squats. Scale rounds to whatever leaves you both smiling.")},
-        {tag:"4", e:ex("Fitness+ on the Apple TV", 1, "30&ndash;45 min", "A HIIT or Core class, together, in the garage. This is where the subscription finally earns its keep for you.")}
+        {tag:"1", e:ex("Ruck", 1, "40&ndash;60 min", "Loaded pack, hills if you have them. The highest-carryover Spartan session that exists, and it costs you nothing in recovery.")},
+        {tag:"2", e:ex("Trail hike or trail run", 1, "45&ndash;75 min", "Uneven ground is the entire point &mdash; your ankles need reps a flat road cannot give them.")},
+        {tag:"3", e:ex("Hyrox taster", 5, "rounds", "500m row, 20 wall balls, 40yd farmer\u2019s carry, 10 burpees. Scale the rounds to whatever leaves you both smiling.")},
+        {tag:"4", e:ex("Fitness+ on the Apple TV", 1, "30&ndash;45 min", "A HIIT or Core class, together, in the garage.")}
       ],
       fin:{t:"Pick one. Do it together.", d:"Skipping this costs you nothing in muscle. Doing it weekly is what turns the Spartan into a fun day instead of a survival exercise."}
     }
@@ -662,10 +685,12 @@
 
   // what number goes in the weight box, per movement
   function unitHint(name){
+    if (/Pull-Up/i.test(name))                  return "+lb";
     if (/Landmine/i.test(name))                 return "plates";
     if (/Carry/i.test(name))                    return "lb/hand";
     if (/Cable|Pulldown/i.test(name))           return "stack";
     if (/Goblet/i.test(name))                   return "lb";
+    if (/Kettlebell|\bKB\b/i.test(name))         return "lb/KB";
     if (/\bDBs?\b|Dumbbell/i.test(name))        return "lb/DB";
     if (/Calf Raise|Split Squat|Lunge/i.test(name)) return "lb/DB";
     return "lb";
@@ -712,6 +737,7 @@
   var $week = document.getElementById("week");
   var $sq = document.getElementById("sq");
   var $dl = document.getElementById("dl");
+  var $pr = document.getElementById("pr");
   var $tabs = document.getElementById("daytabs");
   var $banners = document.getElementById("banners");
   var $session = document.getElementById("session");
@@ -737,6 +763,7 @@
   $week.addEventListener("change", function(){ state.week = parseInt($week.value,10); render(); });
   $sq.addEventListener("input", render);
   $dl.addEventListener("input", render);
+  $pr.addEventListener("input", render);
 
   function round5(n){ return Math.max(45, Math.round(n/5)*5); }
 
@@ -745,11 +772,61 @@
     return WEEKS[0];
   }
 
-  function loadFor(item, wk){
+  function weekInfo(n){
+    for (var j=0;j<WEEKS.length;j++) if (WEEKS[j].w === n) return WEEKS[j];
+    return null;
+  }
+
+  // The last real working set for this lift: most recent non-deload week with data.
+  // "Working weight" is the weight he finished the session on — so a ramp-down
+  // (145x4 then 115x6x3) reads as 115, not as a failed 145.
+  function lastWork(wkNum, dayKey, name, item){
+    var nsets = parseInt(item.e.sets,10) || 1;
+    var goal  = parseInt(item.e.reps,10) || 0;
+    for (var w = wkNum - 1; w >= 1; w--){
+      var info = weekInfo(w);
+      if (info && info.deload) continue;
+      var ws = [], rs = [];
+      for (var i = 0; i < nsets; i++){
+        var lb = parseFloat(Store.getCell(cellKey(w, dayKey, name, "w" + i)));
+        var rp = parseFloat(Store.getCell(cellKey(w, dayKey, name, "r" + i)));
+        if (!isNaN(lb)){ ws.push(lb); rs.push(isNaN(rp) ? 0 : rp); }
+      }
+      if (!ws.length) continue;
+      var work = ws[ws.length - 1], done = 0, hit = true;
+      for (var k = 0; k < ws.length; k++){
+        if (ws[k] === work){ done++; if (rs[k] < goal) hit = false; }
+      }
+      var rpe = parseFloat(Store.getCell(cellKey(w, dayKey, name, "rpe")));
+      if (!isNaN(rpe) && rpe >= 8.5) hit = false;      // cleared the reps, but it was a grind
+      return { week:w, weight:work, sets:done, hit:hit, rpe:isNaN(rpe) ? null : rpe };
+    }
+    return null;
+  }
+
+  function targetFor(item, wk, dayKey, name){
     if (!item.e.lift) return null;
-    var max = item.e.lift === "squat" ? parseFloat($sq.value) : parseFloat($dl.value);
-    if (!max || max <= 0 || !isFinite(max)) return null;
-    return round5(max * wk.pct * item.e.pctAdj);
+    var inc  = (item.e.lift === "press") ? 5 : 10;
+    var seedEl = item.e.lift === "squat" ? $sq : (item.e.lift === "dead" ? $dl : $pr);
+    var seed = parseFloat(seedEl.value);
+    var prev = lastWork(wk.w, dayKey, name, item);
+    var base, why;
+
+    if (!prev){
+      if (!seed || seed <= 0 || !isFinite(seed)) return null;
+      base = seed;
+      why  = "your starting weight \u2014 set it above";
+    } else if (prev.hit){
+      base = prev.weight + inc;
+      why  = "week " + prev.week + ": " + prev.weight + " lb \u00d7 " + prev.sets +
+             " sets, clean" + (prev.rpe ? " at RPE " + prev.rpe : "") + " \u2192 +" + inc;
+    } else {
+      base = prev.weight;
+      why  = "hold at week " + prev.week + "\u2019s " + prev.weight + " lb \u2014 " +
+             (prev.rpe && prev.rpe >= 8.5 ? "RPE " + prev.rpe + " was a grind" : "the reps didn\u2019t all land");
+    }
+    if (wk.deload) return { lb: round5(base * 0.8), why: "deload \u2014 80% of your working weight" };
+    return { lb: round5(base), why: why };
   }
 
   function esc(s){ return String(s); }
@@ -766,7 +843,7 @@
     var bh = '<div class="banner b-week"><strong>Week ' + wk.w + '.</strong> ' + wk.note + '</div>';
     if (wk.deload){
       bh += '<div class="banner b-deload"><strong>Deload week.</strong> Every movement below stays the same. ' +
-            'Halve the listed reps, drop to 60% load, and reduce the finisher to easy zone 2. Deloads are not optional &mdash; they are the reason block 3 works.</div>';
+            'Halve the listed reps, drop to 80% of your working weight, and reduce the finisher to easy zone 2. Deloads are not optional &mdash; they are the reason block 3 works.</div>';
     }
     $banners.innerHTML = bh;
 
@@ -792,13 +869,13 @@
       if (d.alt && d.alt[wk.w]) {
         if (item.tag === "A") name = d.alt[wk.w];
       }
-      var lb = loadFor(item, wk);
       var loadHtml = "";
       if (item.e.lift){
-        if (lb){
-          loadHtml = '<div class="load">' + lb + ' lb &nbsp;&middot;&nbsp; ' + Math.round(wk.pct*100) + '% of old 1RM</div>';
+        var t = targetFor(item, wk, d.key, name);
+        if (t){
+          loadHtml = '<div class="load">' + t.lb + ' lb</div><div class="loadwhy">' + t.why + '</div>';
         } else {
-          loadHtml = '<div class="load unset">Enter your old 1RM above &rarr; ' + Math.round(wk.pct*100) + '% this week</div>';
+          loadHtml = '<div class="load unset">Set a starting weight above</div>';
         }
       }
       h += '<tr><td><span class="tag">' + item.tag + '</span></td>' +
@@ -1085,6 +1162,7 @@
     "She is going to glance over on that trail in April and clock the change in your back before she says a word about it. <b>Build that back.</b>",
     "You are allowed to quit — <b>after the warm-up</b>. Eight minutes. Go collect on that.",
     "The weight today is light on purpose. <b>Week eleven is the one you are protecting</b>, and week eleven is decided right now.",
+    "Your MRI came back clean. Nothing in that shoulder is torn. <b>The only thing still holding your press down is practice</b> \u2014 go get some.",
     "Five times you have started this. Five times you were strong enough. <b>Strength was never the problem — Wednesdays were.</b> Today is not a Wednesday problem.",
     "One missed session is life. <b>Two in a row is how the last four months started.</b> Not today.",
     "Fill a shirt. Pick up the heavy end without discussing it. <b>Go.</b>",
